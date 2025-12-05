@@ -42,7 +42,8 @@ testem.log
 Thumbs.db
 
 # Environment & Firebase
-src/environments/environment.ts
+# NOTE: Environment files ARE committed for deployment
+# Keep .env and .env.local files private locally
 .env
 .env.local
 .firebase/
