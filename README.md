@@ -85,21 +85,37 @@ cd Project-Em-main
 npm install
 ```
 
-### 3. Configure Firebase (`src/environments/environment.ts`)
-```typescript
-export const environment = {
-  production: false,
-  firebase: {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_AUTH_DOMAIN',
-    databaseURL: 'YOUR_DATABASE_URL',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID'
-  }
-};
+### 3. Configure Firebase Environment
+
+⚠️ **IMPORTANT**: Firebase credentials are kept private and should NEVER be committed.
+
+**For Local Development:**
+```bash
+# Copy the example file
+cp src/environments/environment.example.ts src/environments/environment.ts
+
+# Edit and add your Firebase credentials
+# src/environments/environment.ts
 ```
+
+**For Production (Vercel/Deployment):**
+1. Set environment variables in your deployment platform:
+   - `VITE_FIREBASE_API_KEY`
+   - `VITE_FIREBASE_AUTH_DOMAIN`
+   - `VITE_FIREBASE_PROJECT_ID`
+   - `VITE_FIREBASE_STORAGE_BUCKET`
+   - `VITE_FIREBASE_MESSAGING_SENDER_ID`
+   - `VITE_FIREBASE_APP_ID`
+   - `VITE_FIREBASE_MEASUREMENT_ID`
+   - `VITE_FIREBASE_DATABASE_URL`
+
+2. Or copy your credentials to `src/environments/environment.prod.ts` (local only, don't commit)
+
+**Security Note:**
+- ✅ Environment files are in `.gitignore` - they won't be committed
+- ✅ Use `.env.example` as a reference
+- ✅ Never share your Firebase credentials publicly
+- ✅ Rotate keys if accidentally exposed
 
 ### 4. Start Development Server
 ```bash
