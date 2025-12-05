@@ -1,0 +1,164 @@
+<div class="main-container">
+
+  <!-- Luxury Header with Live Status -->
+  <div class="luxury-header">
+    <div class="header-top">
+      <div class="header-title-section">
+        <h1 class="luxury-title">WASTE MANAGEMENT</h1>
+        <p class="luxury-subtitle">Real-Time Monitor System</p>
+      </div>
+      <div class="live-status-badge">
+        <span class="live-pulse"></span>
+        <span>LIVE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <div *ngIf="bin" class="luxury-dashboard">
+    
+    <!-- Hero Metrics Section - Large Display -->
+    <div class="hero-metrics-section">
+      <div class="hero-metric-wrapper">
+        <div class="hero-metric humidity-hero">
+          <div class="hero-label">HUMIDITY</div>
+          <div class="hero-value neon-glow">{{ formatValue(bin.humidity) }}<span class="hero-unit">%</span></div>
+          <div class="metric-progress-ring" [style.--value]="bin.humidity"></div>
+        </div>
+      </div>
+
+      <div class="hero-metric-wrapper">
+        <div class="hero-metric temperature-hero">
+          <div class="hero-label">TEMPERATURE</div>
+          <div class="hero-value neon-glow">{{ formatValue(bin.temperature) }}<span class="hero-unit">°C</span></div>
+          <div class="thermometer-display">
+            <div class="thermometer-container">
+              <div class="thermometer-bar" [style.height.%]="Math.min(100, bin.temperature)"></div>
+            </div>
+            <div class="thermometer-bulb"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-metric-wrapper">
+        <div class="hero-metric volume-hero">
+          <div class="hero-label">FILL LEVEL</div>
+          <div class="hero-value neon-glow" [style.color]="getVolumeColor()">{{ formatValue(bin.volume) }}<span class="hero-unit">%</span></div>
+          <div class="metric-progress-ring" [style.--value]="bin.volume" [style.--ring-color]="getVolumeColor()"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Bin Display - Luxury Version -->
+    <div class="luxury-bin-section">
+      <div class="bin-section-header">
+        <h3 class="section-title">BIN STATUS</h3>
+        <div class="status-indicator-luxury">
+          <span class="status-dot" [style.background-color]="getVolumeColor()"></span>
+          <span class="status-text-luxury">{{ getVolumeStatus() }}</span>
+        </div>
+      </div>
+      
+      <div class="bin-visual-luxury">
+        <div class="bin-container-luxury">
+          <div class="bin-fill-luxury" [style.height.%]="getVolumePercentage()" [style.background-color]="getVolumeColor()" [style.box-shadow]="'inset 0 0 20px ' + getVolumeColor()">
+            <div class="fill-percentage-display" *ngIf="getVolumePercentage() > 15">{{ formatValue(getVolumePercentage()) }}%</div>
+          </div>
+        </div>
+        <div class="bin-info-luxury">
+          <div class="bin-stat">
+            <span class="stat-label">Current Level</span>
+            <span class="stat-value neon-glow">{{ formatValue(bin.volume) }}%</span>
+          </div>
+          <div class="bin-stat">
+            <span class="stat-label">Last Updated</span>
+            <span class="stat-value">{{ bin.timestamp | date:'HH:mm:ss' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Details Section -->
+    <div class="secondary-details">
+      <div class="detail-card">
+        <div class="detail-label">LAST UPDATE</div>
+        <div class="detail-value">{{ bin.timestamp | date:'dd MMM yyyy' }}</div>
+        <div class="detail-subtext">{{ bin.timestamp | date:'HH:mm:ss' }}</div>
+      </div>
+      
+      <div class="detail-card">
+        <div class="detail-label">EDIT DATA</div>
+        <button class="btn-edit-luxury" (click)="openEditForm()">SETTINGS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="!bin" class="empty-state-luxury">
+    <div class="loading-spinner-luxury"></div>
+    <h3>LOADING</h3>
+    <p>Connecting to Firebase Realtime Database</p>
+  </div>
+
+  <!-- Edit Form Modal - Luxury Version -->
+  <div *ngIf="showEditForm" class="modal-overlay-luxury animated-fade-in" (click)="closeBinForm()">
+    <div class="modal-content-luxury modal-slide-in" (click)="$event.stopPropagation()">
+      <div class="modal-header-luxury">
+        <h2>EDIT SENSOR DATA</h2>
+        <button class="modal-close-luxury" (click)="closeBinForm()">✕</button>
+      </div>
+      <form (ngSubmit)="saveBinData()" class="form-content-luxury">
+        <div class="form-group-luxury">
+          <label>HUMIDITY (%)</label>
+          <div class="input-wrapper-luxury">
+            <input 
+              type="number" 
+              [(ngModel)]="binForm.humidity" 
+              name="humidity" 
+              min="0" 
+              max="100"
+              step="0.1"
+              required />
+            <span class="input-unit-luxury">%</span>
+          </div>
+        </div>
+        <div class="form-group-luxury">
+          <label>TEMPERATURE (°C)</label>
+          <div class="input-wrapper-luxury">
+            <input 
+              type="number" 
+              [(ngModel)]="binForm.temperature" 
+              name="temperature" 
+              step="0.1"
+              required />
+            <span class="input-unit-luxury">°C</span>
+          </div>
+        </div>
+        <div class="form-group-luxury">
+          <label>VOLUME (%)</label>
+          <div class="input-wrapper-luxury">
+            <input 
+              type="number" 
+              [(ngModel)]="binForm.volume" 
+              name="volume" 
+              min="0" 
+              max="100"
+              step="0.1"
+              required />
+            <span class="input-unit-luxury">%</span>
+          </div>
+        </div>
+        <div class="form-actions-luxury">
+          <button type="submit" class="btn-save-luxury">SAVE</button>
+          <button type="button" (click)="closeBinForm()" class="btn-cancel-luxury">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<!-- Firebase Logs Section -->
+<div class="logs-container-luxury">
+  <app-logs></app-logs>
+</div>

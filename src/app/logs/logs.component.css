@@ -1,0 +1,13 @@
+.logs{margin-top:40px;padding:40px 20px;background:transparent}
+.logs h2{font-size:1.3rem;letter-spacing:3px;color:#fff;margin-bottom:30px;font-weight:300;text-transform:uppercase}
+.loading{padding:12px 20px;background:rgba(0,255,102,.1);color:var(--neon);border:1px solid rgba(0,255,102,.2);border-radius:4px;display:inline-block;letter-spacing:1px}
+.error{padding:12px 20px;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);border-radius:4px}
+.log-section{display:flex;flex-direction:column;gap:20px}
+.card{background:rgba(10,10,10,.6);border:1px solid #1a1a1a;border-radius:8px;padding:0;backdrop-filter:blur(10px);overflow:hidden}
+.table-wrapper{overflow:auto;max-height:500px}
+table{width:100%;border-collapse:collapse;background:#0a0a0a}
+th,td{border-bottom:1px solid #1a1a1a;padding:14px 16px;font-size:.9rem;text-align:left;color:#fff}
+th{background:rgba(0,255,102,.05);position:sticky;top:0;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--neon);font-size:.8rem}
+td{color:#ccc}
+tr:hover{background:rgba(0,255,102,.02)}
+
